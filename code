@@ -1,0 +1,21 @@
+docker run -d -p 8088:80 -v ${PWD}:/var/www/html --name mi-contenedor-php php:apache-bullseye
+>> docker exec -it mi-contenedor-php docker-php-ext-install mysqli
+>> docker exec -it mi-contenedor-php docker-php-ext-enable mysqli
+
+docker exec -i mi-contenedor-mysql mysql -u root -proot1 prueba < datos.sql
+
+docker run -d -p 3306:3306 --name mi-contenedor-mysql -e MYSQL_ROOT_PASSWORD=root1 -v ${PWD}:/docker-entrypoint-initdb.d mysql:debian
+>> docker exec -it mi-contenedor-mysql mysql -u root -proot1 -e "CREATE DATABASE IF NOT EXISTS prueba;"
+>> docker exec -it mi-contenedor-mysql mysql -u root -proot1 prueba < datos.sql
+
+Get-Content datos.sql | docker exec -i docker-mi-contenedor-mysql -u root -proot1 prueba 
+
+ docker run -d -p 3306:3306 --name mi-contenedor-mysql -e MYSQL_ROOT_PASSWORD=root1 -v ${PWD}:/docker-entrypoint-initdb.d mysql:debian
+
+ docker exec -it mi-contenedor-mysql mysql -u root -proot1 -e "CREATE DATABASE IF NOT EXISTS prueba;"
+ docker exec -it mi-contenedor-mysql mysql -u root -proot1 prueba < datos.sql
+
+  docker exec -it mi-contenedor-php /bin/bash
+
+  CONTENEDOR 2 MYSQL VOLUMEN
+  docker run -d -p 3306:3306 --name mi-contenedor-mysql -e MYSQL_ROOT_PASSWORD=root1 -v ${PWD}/db:/var/lib/mysql mysql:debian
